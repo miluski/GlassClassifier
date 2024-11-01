@@ -1,0 +1,11 @@
+<div>
+  <h2>Set Classifier Parameters</h2>
+  <form (ngSubmit)="setParams()">
+    <div *ngFor="let key of objectKeys(params)">
+      <label>{{ key }}:</label>
+      <input [(ngModel)]="params[key]" name="{{ key }}" />
+    </div>
+    <button type="submit">Set Parameters</button>
+  </form>
+  <p>{{ responseMessage }}</p>
+</div>
