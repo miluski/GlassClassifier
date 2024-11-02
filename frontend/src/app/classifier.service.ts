@@ -3,12 +3,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ClassifierService {
-  private apiUrl = 'http://localhost:5000/set_params';
+  private apiUrl = 'http://192.168.0.12:5001/set_params';
+  parameters: any;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   setParams(params: any): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
