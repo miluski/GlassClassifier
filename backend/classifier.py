@@ -113,11 +113,11 @@ class Classifier:
     def generate_curves(self, model, parameters_type='cv'):
         if (parameters_type=='best'):
             self.plots_generator.save_learning_curve_plot(model, self.X_train, self.y_train, title='Krzywa uczenia dla najlepszych parametrów', parameters_type=parameters_type)
-            self.generate_loss_curve_plot(model, self.X_train, self.y_train, self.X_test, self.y_test, 'najlepszych parametrów', parameters_type)
+            self.plots_generator.save_loss_curve_plot(model, self.X_train, self.y_train, self.X_test, self.y_test, self.best_params, 'najlepszych parametrów', parameters_type)
         else:
             validation_name = self.get_validation_name(self.fold)
             self.plots_generator.save_learning_curve_plot(model, self.X_train_cv, self.y_train_cv, title=f'Krzywa uczenia dla walidacji numer {self.fold}', validation_name=validation_name)
-            self.generate_loss_curve_plot(model, self.X_train_cv, self.y_train_cv, self.X_test_cv, self.y_test_cv, f'walidacji numer {self.fold}', parameters_type, validation_name)
+            self.plots_generator.save_loss_curve_plot(model, self.X_train_cv, self.y_train_cv, self.X_test_cv, self.y_test_cv, self.best_params, f'walidacji numer {self.fold}', parameters_type, validation_name)
             
     def generate_training_data_metrics(self, model, parameters_type='cv'):
         if (parameters_type=='best'):
@@ -142,34 +142,6 @@ class Classifier:
             self.plots_generator.save_confusion_matrix(f'danych testowych dla walidacji numer {self.fold}', cm, 'test', parameters_type=parameters_type, validation_name=validation_name)
             self.calculate_metrics(model, self.X_test_cv, self.y_test_cv, f'testowych dla walidacji numer {self.fold}', 'test')
         self.calculate_decisions_count(cm, data_type='test_data', parameters_type=parameters_type)
-              
-    def generate_loss_curve_plot(self, model, X_train, y_train, X_test, y_test, set_title, parameters_type, validation_name='first_validation'):
-        self.train_loss = []
-        self.test_loss = []
-        max_epochs = self.get_max_epochs_count(model, X_train, y_train, X_test, y_test)
-        self.train_loss = self.train_loss[:max_epochs]
-        self.test_loss = self.test_loss[:max_epochs]
-        self.plots_generator.save_loss_curve_plot(self.train_loss, self.test_loss, set_title, parameters_type, validation_name)
-    
-    def get_max_epochs_count(self, model, X_train, y_train, X_test, y_test):
-        classes = np.unique(y_train)
-        best_train_epoch = 0
-        best_test_epoch = 0
-        lowest_train_loss = float('inf')
-        lowest_test_loss = float('inf')
-        for i in range(2000):
-            model.partial_fit(X_train, y_train, classes=classes)
-            current_train_loss = 1 - model.score(X_train, y_train)
-            current_test_loss = 1 - model.score(X_test, y_test)
-            self.train_loss.append(current_train_loss)
-            self.test_loss.append(current_test_loss)
-            if current_train_loss < lowest_train_loss:
-                lowest_train_loss = current_train_loss
-                best_train_epoch = i
-            if current_test_loss < lowest_test_loss:
-                lowest_test_loss = current_test_loss
-                best_test_epoch = i
-        return max(best_train_epoch, best_test_epoch) + 100
         
     def calculate_decisions_count(self, cm, data_type, parameters_type='cv'):
         correct_decisions = np.trace(cm)

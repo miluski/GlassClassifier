@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ClassifierService {
-  private apiUrl = 'http://192.168.0.12:5001/set_params';
+  private apiUrl = 'http://192.168.0.11:5005/set_params';
   parameters: any;
 
   constructor(private http: HttpClient) {}

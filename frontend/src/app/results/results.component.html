@@ -1,61 +1,294 @@
 <div class="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg">
   <h2 class="text-2xl font-semibold mb-4 text-center">Wyniki Klasyfikacji</h2>
   <div *ngIf="parameters">
-    <h3 class="text-xl font-semibold mb-2">Średni wynik walidacji krzyżowej: {{ parameters.average_cross_validation_score | number:'1.2-2' }}%</h3>
+    <h3 class="text-xl font-semibold mb-2">
+      Średni wynik walidacji krzyżowej:
+      {{ parameters.average_cross_validation_score | number : "1.2-2" }}%
+    </h3>
     <div class="mb-4 space-y-5">
       <h4 class="text-lg font-semibold">Najlepsze parametry:</h4>
-      <p>Decyzje poprawne (dane uczące): {{ parameters.best_parameters_object.correct_decisions.train_data }}</p>
-      <p>Decyzje niepoprawne (dane uczące): {{ parameters.best_parameters_object.incorrect_decisions.train_data }}</p>
-      <p>Decyzje poprawne (dane testowe): {{ parameters.best_parameters_object.correct_decisions.test_data }}</p>
-      <p>Decyzje niepoprawne (dane testowe): {{ parameters.best_parameters_object.incorrect_decisions.test_data }}</p>
-      <p>Procent poprawnych decyzji (dane uczące): {{ parameters.best_parameters_object.correct_percentage.train_data | number:'1.2-2' }}%</p>
-      <p>Procent niepoprawnych decyzji (dane uczące): {{ parameters.best_parameters_object.incorrect_percentage.train_data | number:'1.2-2' }}%</p>
-      <p>Procent poprawnych decyzji (dane testowe): {{ parameters.best_parameters_object.correct_percentage.test_data | number:'1.2-2' }}%</p>
-      <p>Procent niepoprawnych decyzji (dane testowe): {{ parameters.best_parameters_object.incorrect_percentage.test_data | number:'1.2-2' }}%</p>
-      <p>Dokładność: {{ parameters.best_parameters_object.accuracy | number:'1.2-2' }}%</p>
-      <p>Odesetek wyników prawdziwie negatywnych: {{ parameters.best_parameters_object.npv | number:'1.2-2' }}%</p>
-      <p>Precyzja: {{ parameters.best_parameters_object.precision | number:'1.2-2' }}%</p>
-      <p>Czułość: {{ parameters.best_parameters_object.recall | number:'1.2-2' }}%</p>
-      <p>Specyficzność: {{ parameters.best_parameters_object.specificity | number:'1.2-2' }}%</p>
+      <p>
+        Decyzje poprawne (dane uczące):
+        {{ parameters.best_parameters_object.correct_decisions.train_data }}
+      </p>
+      <p>
+        Decyzje niepoprawne (dane uczące):
+        {{ parameters.best_parameters_object.incorrect_decisions.train_data }}
+      </p>
+      <p>
+        Decyzje poprawne (dane testowe):
+        {{ parameters.best_parameters_object.correct_decisions.test_data }}
+      </p>
+      <p>
+        Decyzje niepoprawne (dane testowe):
+        {{ parameters.best_parameters_object.incorrect_decisions.test_data }}
+      </p>
+      <p>
+        Procent poprawnych decyzji (dane uczące):
+        {{
+          parameters.best_parameters_object.correct_percentage.train_data
+            | number : "1.2-2"
+        }}%
+      </p>
+      <p>
+        Procent niepoprawnych decyzji (dane uczące):
+        {{
+          parameters.best_parameters_object.incorrect_percentage.train_data
+            | number : "1.2-2"
+        }}%
+      </p>
+      <p>
+        Procent poprawnych decyzji (dane testowe):
+        {{
+          parameters.best_parameters_object.correct_percentage.test_data
+            | number : "1.2-2"
+        }}%
+      </p>
+      <p>
+        Procent niepoprawnych decyzji (dane testowe):
+        {{
+          parameters.best_parameters_object.incorrect_percentage.test_data
+            | number : "1.2-2"
+        }}%
+      </p>
+      <p>
+        Dokładność:
+        {{ parameters.best_parameters_object.accuracy | number : "1.2-2" }}%
+      </p>
+      <p>
+        Odesetek wyników prawdziwie negatywnych:
+        {{ parameters.best_parameters_object.npv | number : "1.2-2" }}%
+      </p>
+      <p>
+        Precyzja:
+        {{ parameters.best_parameters_object.precision | number : "1.2-2" }}%
+      </p>
+      <p>
+        Czułość:
+        {{ parameters.best_parameters_object.recall | number : "1.2-2" }}%
+      </p>
+      <p>
+        Specyficzność:
+        {{ parameters.best_parameters_object.specificity | number : "1.2-2" }}%
+      </p>
     </div>
     <div class="mb-4">
       <h4 class="text-lg font-semibold">Wykresy:</h4>
-      <p><img [src]="'http://192.168.0.12:5001/images/' + parameters.best_parameters_object.learning_curve_path" alt="Krzywa uczenia"></p>
-      <p><img [src]="'http://192.168.0.12:5001/images/' + parameters.best_parameters_object.loss_curve_path" alt="Krzywa błędu"></p>
-      <p><img [src]="'http://192.168.0.12:5001/images/' + parameters.best_parameters_object.train_confusion_matrix_path" alt="Macierz pomyłek (dane uczące)"></p>
-      <p><img [src]="'http://192.168.0.12:5001/images/' + parameters.best_parameters_object.test_confusion_matrix_path" alt="Macierz pomyłek (dane testowe)"></p>
-      <p><img [src]="'http://192.168.0.12:5001/images/' + parameters.best_parameters_object.train_metrics_path" alt="Metryki danych uczących"></p>
-      <p><img [src]="'http://192.168.0.12:5001/images/' + parameters.best_parameters_object.test_metrics_path" alt="Metryki danych testowych"></p>
+      <p>
+        <img
+          [src]="
+            'http://192.168.0.11:5005/images/' +
+            parameters.best_parameters_object.learning_curve_path
+          "
+          alt="Krzywa uczenia"
+        />
+      </p>
+      <p>
+        <img
+          [src]="
+            'http://192.168.0.11:5005/images/' +
+            parameters.best_parameters_object.loss_curve_path
+          "
+          alt="Krzywa błędu"
+        />
+      </p>
+      <p>
+        <img
+          [src]="
+            'http://192.168.0.11:5005/images/' +
+            parameters.best_parameters_object.train_confusion_matrix_path
+          "
+          alt="Macierz pomyłek (dane uczące)"
+        />
+      </p>
+      <p>
+        <img
+          [src]="
+            'http://192.168.0.11:5005/images/' +
+            parameters.best_parameters_object.test_confusion_matrix_path
+          "
+          alt="Macierz pomyłek (dane testowe)"
+        />
+      </p>
+      <p>
+        <img
+          [src]="
+            'http://192.168.0.11:5005/images/' +
+            parameters.best_parameters_object.train_metrics_path
+          "
+          alt="Metryki danych uczących"
+        />
+      </p>
+      <p>
+        <img
+          [src]="
+            'http://192.168.0.11:5005/images/' +
+            parameters.best_parameters_object.test_metrics_path
+          "
+          alt="Metryki danych testowych"
+        />
+      </p>
     </div>
     <div class="mb-4">
       <h4 class="text-lg font-semibold">Wykresy cech</h4>
       <div *ngFor="let path of parameters.feature_plots_paths">
-        <img [src]="'http://192.168.0.12:5001/images/' + path" alt="Wykres cechy">
+        <img
+          [src]="'http://192.168.0.11:5005/images/' + path"
+          alt="Wykres cechy"
+        />
       </div>
     </div>
     <div class="mb-4">
       <h4 class="text-lg font-semibold">Walidacje krzyżowe:</h4>
-      <div class="space-y-5" *ngFor="let key of objectKeys(parameters.cross_validations_object)">
-        <h5 class="text-md font-semibold">{{ convertKeyToReadableFormat(key) }}</h5>
-        <p>Decyzje poprawne (dane uczące): {{ parameters.cross_validations_object[key].correct_decisions.train_data }}</p>
-        <p>Decyzje niepoprawne (dane uczące): {{ parameters.cross_validations_object[key].incorrect_decisions.train_data }}</p>
-        <p>Decyzje poprawne (dane testowe): {{ parameters.cross_validations_object[key].correct_decisions.test_data }}</p>
-        <p>Decyzje niepoprawne (dane testowe): {{ parameters.cross_validations_object[key].incorrect_decisions.test_data }}</p>
-        <p>Procent poprawnych decyzji (dane uczące): {{ parameters.cross_validations_object[key].correct_percentage.train_data | number:'1.2-2' }}%</p>
-        <p>Procent niepoprawnych decyzji (dane uczące): {{ parameters.cross_validations_object[key].incorrect_percentage.train_data | number:'1.2-2' }}%</p>
-        <p>Procent poprawnych decyzji (dane testowe): {{ parameters.cross_validations_object[key].correct_percentage.test_data | number:'1.2-2' }}%</p>
-        <p>Procent niepoprawnych decyzji (dane testowe): {{ parameters.cross_validations_object[key].incorrect_percentage.test_data | number:'1.2-2' }}%</p>
-        <p>Dokładność: {{ parameters.cross_validations_object[key].accuracy | number:'1.2-2' }}%</p>
-        <p>Odesetek wyników prawdziwie negatywnych: {{ parameters.cross_validations_object[key].npv | number:'1.2-2' }}%</p>
-        <p>Precyzja: {{ parameters.cross_validations_object[key].precision | number:'1.2-2' }}%</p>
-        <p>Czułość: {{ parameters.cross_validations_object[key].recall | number:'1.2-2' }}%</p>
-        <p>Specyficzność: {{ parameters.cross_validations_object[key].specificity | number:'1.2-2' }}%</p>
-        <p><img [src]="'http://192.168.0.12:5001/images/' + parameters.cross_validations_object[key].learning_curve_path" alt="Krzywa uczenia"></p>
-        <p><img [src]="'http://192.168.0.12:5001/images/' + parameters.cross_validations_object[key].loss_curve_path" alt="Krzywa błędu"></p>
-        <p><img [src]="'http://192.168.0.12:5001/images/' + parameters.cross_validations_object[key].test_confusion_matrix_path" alt="Macierz pomyłek (dane testowe)"></p>
-        <p><img [src]="'http://192.168.0.12:5001/images/' + parameters.cross_validations_object[key].train_confusion_matrix_path" alt="Macierz pomyłek (dane uczące)"></p>
-        <p><img [src]="'http://192.168.0.12:5001/images/' + parameters.cross_validations_object[key].test_metrics_path" alt="Metryki danych testowych"></p>
-        <p><img [src]="'http://192.168.0.12:5001/images/' + parameters.cross_validations_object[key].train_metrics_path" alt="Metryki danych uczących"></p>
+      <div
+        class="space-y-5"
+        *ngFor="let key of objectKeys(parameters.cross_validations_object)"
+      >
+        <h5 class="text-md font-semibold">
+          {{ convertKeyToReadableFormat(key) }}
+        </h5>
+        <p>
+          Decyzje poprawne (dane uczące):
+          {{
+            parameters.cross_validations_object[key].correct_decisions
+              .train_data
+          }}
+        </p>
+        <p>
+          Decyzje niepoprawne (dane uczące):
+          {{
+            parameters.cross_validations_object[key].incorrect_decisions
+              .train_data
+          }}
+        </p>
+        <p>
+          Decyzje poprawne (dane testowe):
+          {{
+            parameters.cross_validations_object[key].correct_decisions.test_data
+          }}
+        </p>
+        <p>
+          Decyzje niepoprawne (dane testowe):
+          {{
+            parameters.cross_validations_object[key].incorrect_decisions
+              .test_data
+          }}
+        </p>
+        <p>
+          Procent poprawnych decyzji (dane uczące):
+          {{
+            parameters.cross_validations_object[key].correct_percentage
+              .train_data | number : "1.2-2"
+          }}%
+        </p>
+        <p>
+          Procent niepoprawnych decyzji (dane uczące):
+          {{
+            parameters.cross_validations_object[key].incorrect_percentage
+              .train_data | number : "1.2-2"
+          }}%
+        </p>
+        <p>
+          Procent poprawnych decyzji (dane testowe):
+          {{
+            parameters.cross_validations_object[key].correct_percentage
+              .test_data | number : "1.2-2"
+          }}%
+        </p>
+        <p>
+          Procent niepoprawnych decyzji (dane testowe):
+          {{
+            parameters.cross_validations_object[key].incorrect_percentage
+              .test_data | number : "1.2-2"
+          }}%
+        </p>
+        <p>
+          Dokładność:
+          {{
+            parameters.cross_validations_object[key].accuracy
+              | number : "1.2-2"
+          }}%
+        </p>
+        <p>
+          Odesetek wyników prawdziwie negatywnych:
+          {{ parameters.cross_validations_object[key].npv | number : "1.2-2" }}%
+        </p>
+        <p>
+          Precyzja:
+          {{
+            parameters.cross_validations_object[key].precision
+              | number : "1.2-2"
+          }}%
+        </p>
+        <p>
+          Czułość:
+          {{
+            parameters.cross_validations_object[key].recall | number : "1.2-2"
+          }}%
+        </p>
+        <p>
+          Specyficzność:
+          {{
+            parameters.cross_validations_object[key].specificity
+              | number : "1.2-2"
+          }}%
+        </p>
+        <p>
+          <img
+            [src]="
+              'http://192.168.0.11:5005/images/' +
+              parameters.cross_validations_object[key].learning_curve_path
+            "
+            alt="Krzywa uczenia"
+          />
+        </p>
+        <p>
+          <img
+            [src]="
+              'http://192.168.0.11:5005/images/' +
+              parameters.cross_validations_object[key].loss_curve_path
+            "
+            alt="Krzywa błędu"
+          />
+        </p>
+        <p>
+          <img
+            [src]="
+              'http://192.168.0.11:5005/images/' +
+              parameters.cross_validations_object[key]
+                .test_confusion_matrix_path
+            "
+            alt="Macierz pomyłek (dane testowe)"
+          />
+        </p>
+        <p>
+          <img
+            [src]="
+              'http://192.168.0.11:5005/images/' +
+              parameters.cross_validations_object[key]
+                .train_confusion_matrix_path
+            "
+            alt="Macierz pomyłek (dane uczące)"
+          />
+        </p>
+        <p>
+          <img
+            [src]="
+              'http://192.168.0.11:5005/images/' +
+              parameters.cross_validations_object[key].test_metrics_path
+            "
+            alt="Metryki danych testowych"
+          />
+        </p>
+        <p>
+          <img
+            [src]="
+              'http://192.168.0.11:5005/images/' +
+              parameters.cross_validations_object[key].train_metrics_path
+            "
+            alt="Metryki danych uczących"
+          />
+        </p>
       </div>
     </div>
   </div>

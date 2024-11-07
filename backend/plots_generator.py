@@ -4,8 +4,11 @@ matplotlib.use('Agg')
 import numpy as np
 import matplotlib.ticker as mtick
 import matplotlib.pyplot as plt
-from sklearn.metrics import ConfusionMatrixDisplay
+
+from sklearn.neural_network import MLPClassifier
+from sklearn.metrics import ConfusionMatrixDisplay, log_loss
 from sklearn.model_selection import learning_curve
+from sklearn.svm import SVC
 
 class PlotsGenerator:
     
@@ -85,17 +88,26 @@ class PlotsGenerator:
         else:
             self.api_model.best_parameters_object[f'{data_type}_metrics_path'] = f'metryki_danych_{title}.png'   
     
-    def save_loss_curve_plot(self, train_loss, test_loss, set_title, parameters_type='cv', validation_name='first_validation'):
-        plt.plot(train_loss, label='Dane Uczące', color='red')
-        plt.plot(test_loss, label='Dane Testowe', color='blue')
+    def save_loss_curve_plot(self, model, X_train, y_train, X_test, y_test, best_params, set_title, parameters_type='cv', validation_name='first_validation'):
+        test_loss = []
+        train_loss = []
+        mlp = MLPClassifier(**best_params, warm_start=True)
+        for i in range(1, len(model.loss_curve_) + 1):
+            mlp.partial_fit(X_train, y_train, classes=np.unique(y_train))
+            train_loss.append(mlp.loss_)
+            y_test_proba = mlp.predict_proba(X_test)
+            test_loss.append(log_loss(y_test, y_test_proba))
+        plt.plot(range(1, len(train_loss) + 1), train_loss, label='Dane uczące', color='red')
+        plt.plot(range(1, len(test_loss) + 1), test_loss, label='Dane testowe', color='blue')
         plt.xlabel('Numer epoki')
         plt.ylabel('Wartość straty')
-        plt.title(f'Krzywa błędu uczenia/testowania {set_title}')
+        plt.title(f'Krzywa błędu uczenia testowania {set_title}')
         plt.legend()
         plt.tight_layout()
         plt.savefig(f'krzywa_bledu_uczenia_testowania_{set_title}.png')
         plt.close()
-        if(parameters_type == 'cv'):
-            self.api_model.cross_validations_object[validation_name]['loss_curve_path'] = f'krzywa_bledu_uczenia_testowania_{set_title}.png'
+        loss_curve_path = f'krzywa_bledu_uczenia_testowania_{set_title}.png'
+        if parameters_type == 'cv':
+            self.api_model.cross_validations_object[validation_name]['loss_curve_path'] = loss_curve_path
         else:
-            self.api_model.best_parameters_object['loss_curve_path'] = f'krzywa_bledu_uczenia_testowania_{set_title}.png'
+            self.api_model.best_parameters_object['loss_curve_path'] = loss_curve_path
